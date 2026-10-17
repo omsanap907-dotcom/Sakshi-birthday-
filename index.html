@@ -122,11 +122,16 @@ function closeIntro(){if(intro.classList.contains('leaving'))return;intro.classL
 makePoints();raf=requestAnimationFrame(draw);window.addEventListener('resize',()=>{if(intro.isConnected){cancelAnimationFrame(raf);raf=requestAnimationFrame(draw)}},{passive:true})})();
 
 
-/* Birthday background track: autoplay when allowed; first interaction fallback. */
+/* Birthday background track: autoplay where allowed; retry after a real user gesture until playback succeeds. */
 (()=>{const audio=document.getElementById('birthday-music');if(!audio)return;
 audio.volume=0.72;
-const start=()=>{audio.play().catch(()=>{});};
+let playing=false;
+const cleanup=()=>{window.removeEventListener('pointerdown',start);window.removeEventListener('touchend',start);window.removeEventListener('click',start);window.removeEventListener('keydown',start);};
+function start(){if(playing)return;const attempt=audio.play();if(attempt&&typeof attempt.then==='function'){attempt.then(()=>{playing=true;cleanup();}).catch(()=>{});}else{playing=!audio.paused;if(playing)cleanup();}}
+audio.addEventListener('playing',()=>{playing=true;cleanup();},{once:true});
+window.addEventListener('pointerdown',start,{passive:true});
+window.addEventListener('touchend',start,{passive:true});
+window.addEventListener('click',start);
+window.addEventListener('keydown',start);
 start();
-window.addEventListener('pointerdown',start,{once:true,passive:true});
-window.addEventListener('keydown',start,{once:true});
 })();</script></body></html>
