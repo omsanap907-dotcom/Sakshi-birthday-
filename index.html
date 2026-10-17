@@ -46,9 +46,14 @@ button{font:inherit;font-weight:900;cursor:pointer;border:2px solid var(--ink);b
 .poem-letter.visible{display:block;animation:letterRise .7s ease both}.poem-letter h3{text-align:center;font-family:Georgia,serif;font-size:clamp(1.6rem,6vw,2.4rem);color:#b52f5a;margin:0 0 28px}.poem-letter p{font-family:Georgia,'Times New Roman',serif;font-size:clamp(1rem,3.7vw,1.13rem);line-height:1.85;margin:0 0 19px;white-space:pre-line}.poem-sign{text-align:right!important;font-style:italic;color:#b52f5a;margin-top:28px!important}
 @keyframes letterRise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:480px){.letter-section{padding:58px 14px 68px}.envelope-button{height:230px}.envelope{top:42px}.envelope-flap{top:42px;height:125px}.envelope-note{height:180px}}
+
+/* Romantic background audio control */
+.music-control{position:fixed;right:16px;bottom:18px;z-index:9999;border:1px solid #efb4c5;border-radius:999px;background:#fff8fb;color:#a52d59;padding:10px 14px;font:600 14px system-ui;box-shadow:0 5px 18px #0002;display:flex;align-items:center;gap:8px}
+.music-control:focus-visible{outline:3px solid #ff7ba0;outline-offset:3px}
 </style></head>
 <body>
 <div id="rose-intro" role="dialog" aria-label="A rose made of love in many languages"><div id="rose-stage"><h1 id="rose-title">SAKSHI, EVERY SCRIPT</h1><canvas id="rose-canvas" aria-label="Words meaning love slowly form a rose"></canvas><p id="rose-caption">One name, written around the world 🌹</p></div></div>
+<button class="music-control" id="music-toggle" type="button" aria-label="Pause romantic music" aria-pressed="true">♫ <span>Music on</span></button>
 <main><section class="letter-section" id="birthday-letter">
 <h2>A little letter for you 💌</h2>
 <p class="letter-intro">Some feelings are too gentle to fit inside a birthday wish. Tap the envelope, Sakshi.</p>
@@ -116,4 +121,18 @@ started=performance.now();cancelAnimationFrame(raf);raf=requestAnimationFrame(dr
 function closeIntro(){if(intro.classList.contains('leaving'))return;intro.classList.add('leaving');setTimeout(()=>intro.remove(),1400)}
 makePoints();raf=requestAnimationFrame(draw);window.addEventListener('resize',()=>{if(intro.isConnected){cancelAnimationFrame(raf);raf=requestAnimationFrame(draw)}},{passive:true})})();
 
+
+/* Romantic instrumental-style backing track generated in-browser; starts with the rose intro. */
+(()=>{const toggle=document.getElementById('music-toggle');if(!toggle)return;let audio=null,master=null,playing=false,started=false,notesTimer=null,step=0;
+function makeAudio(){const Ctx=window.AudioContext||window.webkitAudioContext;if(!Ctx)return false;audio=new Ctx();master=audio.createGain();master.gain.value=.0001;master.connect(audio.destination);return true}
+function note(freq,start,duration,volume,type='sine'){if(!audio||!master)return;const osc=audio.createOscillator(),gain=audio.createGain();osc.type=type;osc.frequency.setValueAtTime(freq,start);gain.gain.setValueAtTime(.0001,start);gain.gain.exponentialRampToValueAtTime(volume,start+.12);gain.gain.exponentialRampToValueAtTime(.0001,start+duration);osc.connect(gain);gain.connect(master);osc.start(start);osc.stop(start+duration+.04)}
+const melody=[261.63,329.63,392,329.63,293.66,349.23,440,349.23,261.63,329.63,392,523.25,440,392,349.23,329.63];
+function playLoop(){if(!playing||!audio)return;const now=audio.currentTime;const i=step++%melody.length;note(melody[i],now,.95,.045,'sine');if(i%4===0){note(melody[i]*.5,now,1.8,.025,'triangle');note(melody[(i+2)%melody.length]*1.5,now+.08,.55,.012,'sine')}notesTimer=setTimeout(playLoop,650)}
+async function start(){if(!audio&&!makeAudio())return;if(audio.state==='suspended')await audio.resume();playing=true;started=true;master.gain.cancelScheduledValues(audio.currentTime);master.gain.setTargetAtTime(.7,audio.currentTime,.7);toggle.innerHTML='♫ <span>Music on</span>';toggle.setAttribute('aria-label','Pause romantic music');toggle.setAttribute('aria-pressed','true');if(!notesTimer)playLoop()}
+function stop(){playing=false;if(notesTimer){clearTimeout(notesTimer);notesTimer=null}if(audio&&master){master.gain.cancelScheduledValues(audio.currentTime);master.gain.setTargetAtTime(.0001,audio.currentTime,.12)}toggle.innerHTML='♫ <span>Music off</span>';toggle.setAttribute('aria-label','Play romantic music');toggle.setAttribute('aria-pressed','false')}
+toggle.addEventListener('click',()=>{if(playing)stop();else start()});
+/* Browsers require a user gesture before audio can play. Start on the first tap while the intro is still visible. */
+const unlock=()=>{if(!started)start();window.removeEventListener('pointerdown',unlock);window.removeEventListener('keydown',unlock)};
+window.addEventListener('pointerdown',unlock,{once:true});window.addEventListener('keydown',unlock,{once:true});
+})();
 </script></body></html>
