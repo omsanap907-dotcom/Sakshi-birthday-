@@ -49,15 +49,7 @@ button{font:inherit;font-weight:900;cursor:pointer;border:2px solid var(--ink);b
 </style></head>
 <body>
 <div id="rose-intro" role="dialog" aria-label="A rose made of love in many languages"><div id="rose-stage"><h1 id="rose-title">SAKSHI, EVERY SCRIPT</h1><canvas id="rose-canvas" aria-label="Words meaning love slowly form a rose"></canvas><p id="rose-caption">One name, written around the world 🌹</p></div><button id="rose-skip" type="button">Skip intro ↗</button></div>
-<main>
-<section class="hero">
-<span class="shape s1">🎈</span><span class="shape s2">🍕</span><span class="shape s3">🪩</span><span class="shape s4">🎁</span>
-<div><span class="sticker">⚠️ OFFICIAL BIRTHDAY ALERT ⚠️</span>
-<h1>IT'S YOUR<br><span>DAY, SAKSHI!</span></h1>
-<p class="subtitle">Today, calories don't count, embarrassing dance moves are encouraged, and everyone has to laugh at your jokes. Those are the rules. I don't make them. 😎</p>
-<button id="party">START THE CHAOS 🎉</button><span class="small">Scroll down. There are absolutely no boring speeches here.</span></div>
-</section>
-<section class="letter-section" id="birthday-letter">
+<main><section class="letter-section" id="birthday-letter">
 <h2>A little letter for you 💌</h2>
 <p class="letter-intro">Some feelings are too gentle to fit inside a birthday wish. Tap the envelope, Sakshi.</p>
 <div class="envelope-wrap">
@@ -105,37 +97,10 @@ the way I saw you once.</p>
 <p class="poem-sign">— by a bee<br/>who smelled your fragrance<br/>before the world saw your flower. 🐝</p>
 </article>
 </div>
-</section>
-
-<section class="section">
-<h2>Birthday starter pack 🧃</h2><p>Required equipment for surviving another legendary year.</p>
-<div class="cards">
-<article class="card"><div class="emoji">🍰</div><h3>Maximum cake</h3><p>One slice is a suggestion. Cake math is different on birthdays.</p></article>
-<article class="card"><div class="emoji">😴</div><h3>Zero responsibilities</h3><p>Today's to-do list: vibe, snack, repeat. Everything else can wait.</p></article>
-<article class="card"><div class="emoji">📸</div><h3>Unhinged photos</h3><p>Take 87 pictures to get one good one. Tradition is tradition.</p></article>
-</div>
-</section>
-<section class="section" style="background:#eeeaff">
-<h2>THE CAKE TAP CHALLENGE 🍰</h2><p>Tap the cake as many times as you can. Go on. Prove you deserve the birthday crown.</p>
-<div class="game"><div id="score">Cake taps: 0</div><button id="cake" aria-label="Tap the cake">🎂</button><div id="result" aria-live="polite">Ready? Set? SUGAR RUSH!</div><button id="reset">Reset my cake obsession ↻</button></div>
-</section>
-<section class="section">
-<h2>One very serious message 🧐</h2><p>Dear Sakshi: may your Wi-Fi be strong, your selfies be elite, your food arrive quickly, and your problems be as temporary as a phone battery at 1%.</p><p style="font-size:1.35rem;font-weight:1000">HAPPY BIRTHDAY, LEGEND. 🥳</p><button id="joke">Tell me a birthday joke 🤡</button><p id="jokeout" aria-live="polite" style="font-weight:900;margin-top:22px;min-height:3em"></p>
-</section>
-</main><footer class="footer">Made for Sakshi. Certified 100% birthday nonsense. 🪩</footer>
+</section></main>
 <script>
-const party=document.getElementById('party');
-function confetti(){const symbols=['🎉','✨','🎈','🍰','⭐','🪩','💥'];for(let i=0;i<65;i++){const e=document.createElement('span');e.className='confetti';e.textContent=symbols[Math.floor(Math.random()*symbols.length)];e.style.left=Math.random()*100+'vw';e.style.animationDuration=(2.2+Math.random()*3)+'s';e.style.animationDelay=Math.random()*.7+'s';e.style.fontSize=(16+Math.random()*23)+'px';document.body.appendChild(e);setTimeout(()=>e.remove(),6000)}}
-party.addEventListener('click',()=>{confetti();party.textContent='CHAOS ACTIVATED 🪩';party.style.background='#ff8db2'});
-let score=0;const cake=document.getElementById('cake'),scoreEl=document.getElementById('score'),result=document.getElementById('result');
-cake.addEventListener('click',()=>{score++;scoreEl.textContent='Cake taps: '+score;cake.textContent=['🎂','🍰','🧁','🎂','🍩'][score%5];if(score===5)result.textContent='Okay, cake enthusiast. We see you. 😭';else if(score===10)result.textContent='TEN TAPS?! The bakery has your number on speed dial.';else if(score===20)result.textContent='🏆 LEGENDARY CAKE DESTROYER UNLOCKED 🏆';else if(score>20&&score%10===0)result.textContent='The cake is scared of you now. Keep going. 💀';else result.textContent=['Excellent birthday form!','Professional snack athlete.','Your dedication is concerning. 😂','The cake never stood a chance.'][score%4]});
-document.getElementById('reset').addEventListener('click',()=>{score=0;scoreEl.textContent='Cake taps: 0';cake.textContent='🎂';result.textContent='Fresh cake. Fresh start. GO!'});
-const jokes=['Why did the birthday cake go to school? It wanted to be a smartie. 🍬','What goes up but never comes down? Your age. Sorry. 💀','Birthday calories are like ghosts: nobody can prove they exist. 🍰','You are not getting older. You are levelling up—with extra bugs. 🎮'];
-document.getElementById('joke').addEventListener('click',()=>{document.getElementById('jokeout').textContent=jokes[Math.floor(Math.random()*jokes.length)]});
-
 const openLetter=document.getElementById('open-letter');
 if(openLetter){openLetter.addEventListener('click',()=>{const open=!openLetter.classList.contains('open');openLetter.classList.toggle('open',open);openLetter.setAttribute('aria-expanded',String(open));const poem=document.getElementById('poem-letter');poem.classList.toggle('visible',open);document.getElementById('envelope-hint').textContent=open?'A little piece of my heart, written just for you 💗':'Tap the letter to open it ✨';if(open)setTimeout(()=>poem.scrollIntoView({behavior:'smooth',block:'start'}),450);});}
-
 (()=>{const intro=document.getElementById('rose-intro'),canvas=document.getElementById('rose-canvas');if(!intro||!canvas)return;const ctx=canvas.getContext('2d');
 const words=['SAKSHI','साक्षी','साक्षी','সাক্ষী','સાક્ષી','ਸਾਕਸ਼ੀ','ಸಾಕ್ಷಿ','సాక్షి','சாக்ஷி','സാക്ഷി','સાક્ષી','साक्षी','ساكشي','サクシ','삭시','萨克希','Сакши','Σάκσι','ศักชี','Sakshi','Sakshi','Sakshi','Sakshi','SAKSHI'];
 let points=[],started=performance.now(),raf=0;
