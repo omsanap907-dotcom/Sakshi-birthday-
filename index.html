@@ -127,12 +127,11 @@ makePoints();raf=requestAnimationFrame(draw);window.addEventListener('resize',()
 function makeAudio(){const Ctx=window.AudioContext||window.webkitAudioContext;if(!Ctx)return false;audio=new Ctx();master=audio.createGain();master.gain.value=.0001;master.connect(audio.destination);return true}
 function note(freq,start,duration,volume,type='sine'){if(!audio||!master)return;const osc=audio.createOscillator(),gain=audio.createGain();osc.type=type;osc.frequency.setValueAtTime(freq,start);gain.gain.setValueAtTime(.0001,start);gain.gain.exponentialRampToValueAtTime(volume,start+.12);gain.gain.exponentialRampToValueAtTime(.0001,start+duration);osc.connect(gain);gain.connect(master);osc.start(start);osc.stop(start+duration+.04)}
 const melody=[261.63,329.63,392,329.63,293.66,349.23,440,349.23,261.63,329.63,392,523.25,440,392,349.23,329.63];
-function playLoop(){if(!playing||!audio)return;const now=audio.currentTime;const i=step++%melody.length;note(melody[i],now,.95,.045,'sine');if(i%4===0){note(melody[i]*.5,now,1.8,.025,'triangle');note(melody[(i+2)%melody.length]*1.5,now+.08,.55,.012,'sine')}notesTimer=setTimeout(playLoop,650)}
+function playLoop(){if(!playing||!audio)return;const now=audio.currentTime;const i=step++%melody.length;note(melody[i],now,1.05,.11,'triangle');if(i%4===0){note(melody[i]*.5,now,1.8,.055,'sine');note(melody[(i+2)%melody.length]*1.5,now+.08,.7,.035,'sine')}notesTimer=setTimeout(playLoop,650)}
 async function start(){if(!audio&&!makeAudio())return;if(audio.state==='suspended')await audio.resume();playing=true;started=true;master.gain.cancelScheduledValues(audio.currentTime);master.gain.setTargetAtTime(.7,audio.currentTime,.7);toggle.innerHTML='♫ <span>Music on</span>';toggle.setAttribute('aria-label','Pause romantic music');toggle.setAttribute('aria-pressed','true');if(!notesTimer)playLoop()}
 function stop(){playing=false;if(notesTimer){clearTimeout(notesTimer);notesTimer=null}if(audio&&master){master.gain.cancelScheduledValues(audio.currentTime);master.gain.setTargetAtTime(.0001,audio.currentTime,.12)}toggle.innerHTML='♫ <span>Music off</span>';toggle.setAttribute('aria-label','Play romantic music');toggle.setAttribute('aria-pressed','false')}
 toggle.addEventListener('click',()=>{if(playing)stop();else start()});
-/* Browsers require a user gesture before audio can play. Start on the first tap while the intro is still visible. */
-const unlock=()=>{if(!started)start();window.removeEventListener('pointerdown',unlock);window.removeEventListener('keydown',unlock)};
-window.addEventListener('pointerdown',unlock,{once:true});window.addEventListener('keydown',unlock,{once:true});
+/* Mobile browsers block sound until the visitor taps the music control.
+   Do not use a global pointerdown unlock: it can start and immediately stop on the same tap. */
 })();
 </script></body></html>
