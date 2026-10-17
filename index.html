@@ -76,9 +76,9 @@ const wishes=['HAPPY BIRTHDAY','जन्मदिन मुबारक','व�
 points=[];let n=0;const W=canvas.clientWidth||390,H=canvas.clientHeight||360;
 // Sample a classic, bilaterally symmetric butterfly silhouette with distinct forewings and hindwings.
 function inside(x,y){const e=(cx,cy,rx,ry)=>((x-cx)/rx)**2+((y-cy)/ry)**2;return e(.30,.29,.25,.20)<1||e(.70,.29,.25,.20)<1||e(.34,.59,.19,.19)<1||e(.66,.59,.19,.19)<1}
-for(let y=.10;y<.80;y+=.018){for(let x=.045;x<.955;x+=.014){n++;let xx=x+(rand(n+3100)-.5)*.006,yy=y+(rand(n+3300)-.5)*.006;if(inside(xx,yy)){const body=Math.abs(xx-.5)<.022&&yy>.30&&yy<.72;points.push({x:xx,y:yy,text:body?(yy<.39?'HBD':'♥'):wishes[Math.floor(rand(n+3500)*wishes.length)],color:body?'#ffe7ad':['#ff315b','#ff5686','#ff8eb3','#ffc4d9','#f9e9ff','#ffcf70'][Math.floor(rand(n+3700)*6)],delay:rand(n+3900)*.9,size:body?9:7+rand(n+4100)*2.6})}}}
-// Antennae, plus small decorative dots along the outer wing edges.
-for(let side of [-1,1]){for(let j=0;j<15;j++){const t=j/14;points.push({x:.5+side*(.018+.095*t),y:.34-.16*t,text:j%4===0?'•':'·',color:'#ffe7ad',delay:rand(j+side*100+4300)*.5,size:9+rand(j+4500)*3})}}
+for(let y=.12;y<.79;y+=.036){for(let x=.05;x<.95;x+=.027){n++;let xx=x+(rand(n+3100)-.5)*.004,yy=y+(rand(n+3300)-.5)*.004;if(inside(xx,yy)){const body=Math.abs(xx-.5)<.022&&yy>.30&&yy<.72;points.push({x:xx,y:yy,text:body?(yy<.39?'HBD':'♥'):wishes[Math.floor(rand(n+3500)*wishes.length)],color:body?'#ffe7ad':['#ff315b','#ff5686','#ff8eb3','#ffc4d9','#f9e9ff','#ffcf70'][Math.floor(rand(n+3700)*6)],delay:rand(n+3900)*.9,size:body?10:9+rand(n+4100)*2.2})}}}
+// Keep the antennae elegant and the wing edges airy rather than crowded.
+for(let side of [-1,1]){for(let j=0;j<8;j++){const t=j/7;points.push({x:.5+side*(.018+.095*t),y:.34-.16*t,text:j===7?'•':'·',color:'#ffe7ad',delay:rand(j+side*100+4300)*.5,size:10+rand(j+4500)*2})}}
 started=performance.now();cancelAnimationFrame(raf);raf=requestAnimationFrame(draw);setTimeout(closeIntro,5200)}
 function closeIntro(){if(intro.classList.contains('leaving'))return;intro.classList.add('leaving');setTimeout(()=>intro.remove(),1400)}
 document.getElementById('rose-skip').addEventListener('click',closeIntro);makePoints();raf=requestAnimationFrame(draw);window.addEventListener('resize',()=>{if(intro.isConnected){cancelAnimationFrame(raf);raf=requestAnimationFrame(draw)}},{passive:true})})();
