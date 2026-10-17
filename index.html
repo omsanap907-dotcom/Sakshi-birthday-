@@ -29,7 +29,7 @@ button{font:inherit;font-weight:900;cursor:pointer;border:2px solid var(--ink);b
 
 </style></head>
 <body>
-<div id="rose-intro" role="dialog" aria-label="A rose made of love in many languages"><div id="rose-stage"><h1 id="rose-title">1 Rose, Every Language</h1><canvas id="rose-canvas" aria-label="Words meaning love slowly form a rose"></canvas><p id="rose-caption">A little something, made just for Sakshi</p></div><button id="rose-skip" type="button">Skip intro ↗</button></div>
+<div id="rose-intro" role="dialog" aria-label="A rose made of love in many languages"><div id="rose-stage"><h1 id="rose-title">SAKSHI, EVERY SCRIPT</h1><canvas id="rose-canvas" aria-label="Words meaning love slowly form a rose"></canvas><p id="rose-caption">One name, written around the world 🌹</p></div><button id="rose-skip" type="button">Skip intro ↗</button></div>
 <main>
 <section class="hero">
 <span class="shape s1">🎈</span><span class="shape s2">🍕</span><span class="shape s3">🪩</span><span class="shape s4">🎁</span>
@@ -65,7 +65,7 @@ const jokes=['Why did the birthday cake go to school? It wanted to be a smartie.
 document.getElementById('joke').addEventListener('click',()=>{document.getElementById('jokeout').textContent=jokes[Math.floor(Math.random()*jokes.length)]});
 
 (()=>{const intro=document.getElementById('rose-intro'),canvas=document.getElementById('rose-canvas');if(!intro||!canvas)return;const ctx=canvas.getContext('2d');
-const words=['I LOVE YOU','AMOR','愛してる','Je t’aime','Te amo','사랑해','Nakupenda','我爱你','Ich liebe dich','Aishiteru','Ti amo','LOVE','أحبك','Я тебя люблю','Seni seviyorum','Mahal kita','Anh yêu em','사랑','Amour','मैं तुमसे प्यार करता हूँ'];
+const words=['SAKSHI','साक्षी','साक्षी','সাক্ষী','સાક્ષી','ਸਾਕਸ਼ੀ','ಸಾಕ್ಷಿ','సాక్షి','சாக்ஷி','സാക്ഷി','સાક્ષી','साक्षी','ساكشي','サクシ','삭시','萨克希','Сакши','Σάκσι','ศักชี','Sakshi','Sakshi','Sakshi','Sakshi','SAKSHI'];
 let points=[],started=performance.now(),raf=0;
 function rand(seed){let x=Math.sin(seed*127.1+311.7)*43758.5453;return x-Math.floor(x)}
 function zone(x,y){const c=[[.50,.22,.17],[.36,.27,.16],[.64,.27,.16],[.43,.37,.17],[.57,.37,.17],[.50,.31,.19]];if(c.some(q=>((x-q[0])**2+(y-q[1])**2)<q[2]*q[2]))return'petal';if(x>.482&&x<.518&&y>.43&&y<.88)return'stem';if(y>.56&&y<.70&&((x>.28&&x<.49&&y<.68-(x-.28)*.18)||(x>.51&&x<.73&&y<.68-(.73-x)*.18)))return'leaf';return''}
