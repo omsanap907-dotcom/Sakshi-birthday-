@@ -27,6 +27,25 @@ button{font:inherit;font-weight:900;cursor:pointer;border:2px solid var(--ink);b
 @media(max-height:650px){#rose-stage{min-height:0}#rose-title{font-size:clamp(1.7rem,6vw,3rem)}#rose-canvas{height:64svh}}
 @media(prefers-reduced-motion:reduce){#rose-intro{transition:none}#rose-caption{animation:none;opacity:1}}
 
+
+/* Birthday letter: soft scrapbook style, separate from the opening intro */
+.letter-section{padding:76px 18px 88px;text-align:center;background:#fff3f6;background-image:linear-gradient(#f8dfe7 1px,transparent 1px),linear-gradient(90deg,#f8dfe7 1px,transparent 1px);background-size:28px 28px}
+.letter-section h2{font-size:clamp(2rem,8vw,3.5rem);line-height:1.05;margin:0 0 12px;color:#c52e64;text-shadow:2px 2px #fff}
+.letter-intro{max-width:520px;margin:0 auto 34px;line-height:1.7}
+.envelope-wrap{max-width:560px;margin:0 auto;perspective:1000px}
+.envelope-button{position:relative;display:block;width:min(100%,440px);height:260px;margin:0 auto 24px;padding:0;border:0;border-radius:8px;background:transparent;box-shadow:none;overflow:visible}
+.envelope{position:absolute;inset:45px 8px 0;background:#d73551;border-radius:5px 5px 12px 12px;box-shadow:0 15px 30px #9c335333;overflow:visible}
+.envelope:before{content:"";position:absolute;inset:0;background:#f04e68;clip-path:polygon(0 0,50% 57%,100% 0,100% 100%,0 100%);z-index:3;border-radius:5px 5px 12px 12px}
+.envelope:after{content:"";position:absolute;inset:0;background:#c72448;clip-path:polygon(0 100%,50% 48%,100% 100%);z-index:4;border-radius:0 0 12px 12px}
+.envelope-flap{position:absolute;left:0;right:0;top:45px;height:145px;background:#ff7187;clip-path:polygon(0 0,100% 0,50% 72%);transform-origin:top;transition:transform .7s ease;z-index:5;filter:drop-shadow(0 3px 2px #a92c4833)}
+.envelope-note{position:absolute;z-index:2;left:8%;right:8%;top:7px;height:205px;padding:20px 14px;background:#fffdf8;border:1px solid #f0d6d6;border-radius:5px;color:#9f3157;display:flex;align-items:center;justify-content:center;flex-direction:column;transition:transform .7s ease;box-shadow:0 5px 12px #71304a22}
+.envelope-note strong{font-family:Georgia,serif;font-size:clamp(1.1rem,4vw,1.6rem)}.envelope-note span{font-size:.82rem;margin-top:10px;letter-spacing:.12em}
+.envelope-button.open .envelope-flap{transform:rotateX(180deg);z-index:1}.envelope-button.open .envelope-note{transform:translateY(-72px);transition-delay:.12s}
+.envelope-hint{font-weight:800;color:#9c3156;margin:0 0 26px}
+.poem-letter{display:none;max-width:690px;margin:0 auto;text-align:left;background:#fffdf8;border:1px solid #efd9d9;border-radius:6px;padding:clamp(24px,6vw,48px);box-shadow:0 15px 35px #a63d5a1c;position:relative;color:#4b3340}
+.poem-letter.visible{display:block;animation:letterRise .7s ease both}.poem-letter h3{text-align:center;font-family:Georgia,serif;font-size:clamp(1.6rem,6vw,2.4rem);color:#b52f5a;margin:0 0 28px}.poem-letter p{font-family:Georgia,'Times New Roman',serif;font-size:clamp(1rem,3.7vw,1.13rem);line-height:1.85;margin:0 0 19px;white-space:pre-line}.poem-sign{text-align:right!important;font-style:italic;color:#b52f5a;margin-top:28px!important}
+@keyframes letterRise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:480px){.letter-section{padding:58px 14px 68px}.envelope-button{height:230px}.envelope{top:42px}.envelope-flap{top:42px;height:125px}.envelope-note{height:180px}}
 </style></head>
 <body>
 <div id="rose-intro" role="dialog" aria-label="A rose made of love in many languages"><div id="rose-stage"><h1 id="rose-title">SAKSHI, EVERY SCRIPT</h1><canvas id="rose-canvas" aria-label="Words meaning love slowly form a rose"></canvas><p id="rose-caption">One name, written around the world 🌹</p></div><button id="rose-skip" type="button">Skip intro ↗</button></div>
@@ -38,6 +57,56 @@ button{font:inherit;font-weight:900;cursor:pointer;border:2px solid var(--ink);b
 <p class="subtitle">Today, calories don't count, embarrassing dance moves are encouraged, and everyone has to laugh at your jokes. Those are the rules. I don't make them. 😎</p>
 <button id="party">START THE CHAOS 🎉</button><span class="small">Scroll down. There are absolutely no boring speeches here.</span></div>
 </section>
+<section class="letter-section" id="birthday-letter">
+<h2>A little letter for you 💌</h2>
+<p class="letter-intro">Some feelings are too gentle to fit inside a birthday wish. Tap the envelope, Sakshi.</p>
+<div class="envelope-wrap">
+<button class="envelope-button" id="open-letter" type="button" aria-expanded="false" aria-controls="poem-letter" aria-label="Open your birthday letter">
+<span class="envelope-note"><strong>For Sakshi</strong><span>OPEN WHEN YOU'RE READY ♡</span></span><span class="envelope"></span><span class="envelope-flap"></span>
+</button>
+<p class="envelope-hint" id="envelope-hint">Tap the letter to open it ✨</p>
+<article class="poem-letter" id="poem-letter" aria-live="polite">
+<h3>The Flower That Was Beautiful All Along 🌷</h3>
+<p>You are like a flower that is still too shy to bloom,
+perhaps hiding so much beauty within
+that the world has yet to discover
+the fragrance of your mind.</p>
+<p>I don't see you as a flower
+that everyone admires only after it blooms.
+I see the beauty in you even now,
+before the world gets a chance to notice it.</p>
+<p>You are a flower growing through the confusion of life,
+sometimes lost, sometimes stuck,
+still finding your way through the seasons.
+Yet somehow, even before you bloom,
+you carry a fragrance so beautiful.</p>
+<p>Perhaps the world hasn't seen you
+the way you wish to be seen,
+or the way you truly deserve to be seen.</p>
+<p>But I see a beauty in you
+that doesn't need to bloom to be real.</p>
+<p>And maybe, one day,
+the world will finally stop
+and notice the flower
+that was beautiful all along.</p>
+<p>I saw beyond what you expressed,
+beyond the beauty you showed the world.</p>
+<p>I saw you,
+still stuck between the petals
+of a flower not yet bloomed.</p>
+<p>I wanted to feel the wind around you,
+to feel the seasons that touched you,
+to understand the fragrance you carried
+even before you bloomed.</p>
+<p>Not to change the flower,
+not to force its petals open,
+but to feel its beauty
+the way I saw you once.</p>
+<p class="poem-sign">— by a bee<br/>who smelled your fragrance<br/>before the world saw your flower. 🐝</p>
+</article>
+</div>
+</section>
+
 <section class="section">
 <h2>Birthday starter pack 🧃</h2><p>Required equipment for surviving another legendary year.</p>
 <div class="cards">
@@ -63,6 +132,9 @@ cake.addEventListener('click',()=>{score++;scoreEl.textContent='Cake taps: '+sco
 document.getElementById('reset').addEventListener('click',()=>{score=0;scoreEl.textContent='Cake taps: 0';cake.textContent='🎂';result.textContent='Fresh cake. Fresh start. GO!'});
 const jokes=['Why did the birthday cake go to school? It wanted to be a smartie. 🍬','What goes up but never comes down? Your age. Sorry. 💀','Birthday calories are like ghosts: nobody can prove they exist. 🍰','You are not getting older. You are levelling up—with extra bugs. 🎮'];
 document.getElementById('joke').addEventListener('click',()=>{document.getElementById('jokeout').textContent=jokes[Math.floor(Math.random()*jokes.length)]});
+
+const openLetter=document.getElementById('open-letter');
+if(openLetter){openLetter.addEventListener('click',()=>{const open=!openLetter.classList.contains('open');openLetter.classList.toggle('open',open);openLetter.setAttribute('aria-expanded',String(open));const poem=document.getElementById('poem-letter');poem.classList.toggle('visible',open);document.getElementById('envelope-hint').textContent=open?'A little piece of my heart, written just for you 💗':'Tap the letter to open it ✨';if(open)setTimeout(()=>poem.scrollIntoView({behavior:'smooth',block:'start'}),450);});}
 
 (()=>{const intro=document.getElementById('rose-intro'),canvas=document.getElementById('rose-canvas');if(!intro||!canvas)return;const ctx=canvas.getContext('2d');
 const words=['SAKSHI','साक्षी','साक्षी','সাক্ষী','સાક્ષી','ਸਾਕਸ਼ੀ','ಸಾಕ್ಷಿ','సాక్షి','சாக்ஷி','സാക്ഷി','સાક્ષી','साक्षी','ساكشي','サクシ','삭시','萨克希','Сакши','Σάκσι','ศักชี','Sakshi','Sakshi','Sakshi','Sakshi','SAKSHI'];
