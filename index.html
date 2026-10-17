@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#fff0f4">
+<title>Happy Birthday, Sakshi! 🎂</title>
+<style>
+:root{--pink:#ff4f87;--rose:#ff8ca8;--ink:#452638;--cream:#fff8f5}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:ui-rounded,"Trebuchet MS",system-ui,sans-serif;color:var(--ink);background:var(--cream);overflow-x:hidden}
+.hero{min-height:100svh;display:grid;place-items:center;text-align:center;padding:28px 18px;position:relative;isolation:isolate;background:radial-gradient(ellipse at 20% 15%,#ffe0e9 0,transparent 40%),radial-gradient(ellipse at 85% 80%,#ffe8ce 0,transparent 38%),linear-gradient(135deg,#fff7f5,#fff0f6)}
+.glow{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none}.float{position:absolute;animation:drift 7s ease-in-out infinite;opacity:.75;font-size:clamp(20px,5vw,40px)}.float:nth-child(1){left:8%;top:14%}.float:nth-child(2){right:10%;top:23%;animation-delay:-2s}.float:nth-child(3){left:15%;bottom:15%;animation-delay:-4s}.float:nth-child(4){right:12%;bottom:12%;animation-delay:-1s}
+@keyframes drift{50%{transform:translateY(-18px) rotate(8deg)}}.pill{display:inline-block;border:1px solid #ffc4d4;background:#ffffffa8;border-radius:99px;padding:8px 15px;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:#c03d6a}
+h1{font-size:clamp(3.1rem,12vw,7rem);line-height:.95;letter-spacing:-.065em;margin:22px 0 14px;color:#d93670}h1 span{display:block;color:#71324e}.subtitle{max-width:520px;margin:0 auto 26px;font-size:clamp(1rem,3.5vw,1.2rem);line-height:1.7;color:#7d5365}
+button{border:0;cursor:pointer;font:inherit;font-weight:700;border-radius:999px;padding:15px 24px;background:var(--pink);color:white;box-shadow:0 10px 25px #ff4f873b;transition:transform .2s,box-shadow .2s}button:hover{transform:translateY(-2px);box-shadow:0 14px 30px #ff4f8755}button:focus-visible{outline:3px solid #71324e;outline-offset:4px}
+.scroll{display:block;margin-top:35px;color:#a46b80;font-size:.85rem}.section{padding:76px 20px;text-align:center}.section h2{font-size:clamp(2rem,7vw,3.4rem);letter-spacing:-.04em;margin:0 0 14px;color:#c83b70}.section p{line-height:1.8;max-width:600px;margin:0 auto;color:#7d5365}
+.note{max-width:650px;margin:30px auto 0;padding:clamp(24px,6vw,44px);background:#fff;border:1px solid #ffe0e8;border-radius:26px;box-shadow:0 18px 55px #9b4c6b12;transform:rotate(-.5deg)}.note .heart{font-size:2rem}.note p{font-size:1.05rem}.footer{padding:25px;text-align:center;color:#a46b80;font-size:.85rem}
+#surprise{display:none;margin:25px auto 0;max-width:560px;padding:24px;background:#fff;border:1px solid #ffd6e2;border-radius:22px;line-height:1.8;box-shadow:0 12px 35px #9b4c6b12}#surprise.show{display:block;animation:pop .45s ease-out}@keyframes pop{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}.confetti{position:fixed;top:-20px;z-index:5;pointer-events:none;animation:fall linear forwards}@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:.2}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main>
+<section class="hero">
+ <div class="glow" aria-hidden="true"><span class="float">💗</span><span class="float">✨</span><span class="float">🌷</span><span class="float">🎀</span></div>
+ <div>
+  <span class="pill">A little page, just for you</span>
+  <h1>Happy Birthday,<span>Sakshi!</span></h1>
+  <p class="subtitle">Today deserves extra sparkle, extra smiles, and all the little things that make you happy. This tiny surprise is made just for you. 💕</p>
+  <button id="open" type="button">Open your surprise ✨</button>
+  <div id="surprise" role="status" aria-live="polite">🎂 <strong>Wishing you the happiest birthday, Sakshi!</strong><br>May this new year of your life bring you peaceful days, beautiful surprises, big dreams coming true, and people who make you feel loved. Keep being wonderfully you. 💖</div>
+  <span class="scroll">A little more love below ↓</span>
+ </div>
+</section>
+<section class="section">
+ <div style="font-size:2rem;margin-bottom:14px" aria-hidden="true">🌸 ✨ 🌸</div>
+ <h2>Here's to your next chapter</h2>
+ <p>More laughter that makes your cheeks hurt. More memories worth keeping. More courage to chase what you want. And more reasons to smile on ordinary days, too.</p>
+ <div class="note"><div class="heart">💌</div><p><em>“You deserve the kind of happiness that stays, the kind of love that feels safe, and the kind of life that makes you excited to wake up every morning.”</em></p><p>Have the loveliest birthday, Sakshi. 🌷</p></div>
+</section>
+</main>
+<footer class="footer">Made with 💗 for Sakshi · A little birthday magic</footer>
+<script>
+const button=document.getElementById('open'), surprise=document.getElementById('surprise');
+button.addEventListener('click',()=>{
+ surprise.classList.add('show');button.textContent='Birthday magic unlocked 💖';button.disabled=true;button.style.opacity='.8';
+ const symbols=['💗','✨','🌸','🎉','💕','⭐'];
+ for(let i=0;i<48;i++){const piece=document.createElement('span');piece.className='confetti';piece.textContent=symbols[Math.floor(Math.random()*symbols.length)];piece.style.left=Math.random()*100+'vw';piece.style.animationDuration=(2.5+Math.random()*3)+'s';piece.style.animationDelay=Math.random()*.8+'s';piece.style.fontSize=(14+Math.random()*18)+'px';document.body.appendChild(piece);setTimeout(()=>piece.remove(),6500)}
+});
+</script>
+</body>
+</html>
