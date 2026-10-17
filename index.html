@@ -14,8 +14,22 @@ h1{font-size:clamp(3.5rem,14vw,8rem);line-height:.82;letter-spacing:-.08em;margi
 button{font:inherit;font-weight:900;cursor:pointer;border:2px solid var(--ink);border-radius:15px;padding:14px 19px;color:var(--ink);background:var(--yellow);box-shadow:5px 5px 0 var(--ink);transition:transform .15s,box-shadow .15s}button:hover{transform:translate(2px,2px) rotate(-1deg);box-shadow:3px 3px 0 var(--ink)}button:active{transform:translate(5px,5px);box-shadow:0 0 0 var(--ink)}button:focus-visible{outline:3px dashed var(--blue);outline-offset:5px}
 .small{display:block;margin-top:24px;font-size:.85rem;font-weight:800}.section{padding:75px 18px;text-align:center}.section h2{font-size:clamp(2.2rem,8vw,4rem);line-height:1;margin:0 0 14px;letter-spacing:-.06em}.section>p{max-width:600px;line-height:1.7;margin:0 auto 30px;font-weight:600}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:18px;max-width:920px;margin:30px auto}.card{background:#fff;border:2px solid var(--ink);border-radius:22px;padding:24px 18px;box-shadow:6px 6px 0 var(--ink);transform:rotate(var(--tilt,1deg))}.card:nth-child(2){--tilt:-1deg;background:#e9eaff}.card:nth-child(3){--tilt:1deg;background:#ffe3ed}.emoji{font-size:2.6rem}.card h3{margin:12px 0 8px;font-size:1.2rem}.card p{margin:0;line-height:1.6}.game{max-width:680px;margin:26px auto;background:#dff9e8;border:2px solid var(--ink);border-radius:25px;padding:28px 20px;box-shadow:7px 7px 0 var(--ink)}#score{font-size:1.1rem;font-weight:900;margin:12px}#cake{font-size:clamp(3.5rem,15vw,6rem);background:white;border-radius:22px;display:inline-grid;place-items:center;width:130px;height:130px;margin:14px;border:2px dashed var(--ink);box-shadow:none;padding:0}#result{min-height:2em;font-weight:800;margin:12px auto;line-height:1.5}.footer{padding:25px;text-align:center;font-weight:800;background:var(--yellow)}.confetti{position:fixed;top:-30px;z-index:10;pointer-events:none;animation:fall linear forwards}@keyframes fall{to{transform:translateY(110vh) rotate(700deg);opacity:.15}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition:none!important}}
+
+/* Opening rose animation */
+#rose-intro{position:fixed;inset:0;z-index:9999;background:#030204;color:#ff5278;display:grid;place-items:center;overflow:hidden;transition:opacity 1.2s ease,visibility 1.2s ease}
+#rose-intro.leaving{opacity:0;visibility:hidden;pointer-events:none}
+#rose-stage{position:relative;width:min(100vw,620px);height:min(100svh,900px);min-height:560px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+#rose-title{font-family:Arial,sans-serif;font-size:clamp(2rem,8vw,4.2rem);font-weight:900;line-height:1.05;letter-spacing:-.06em;text-align:center;color:#ff174c;margin:0 12px 8px;text-shadow:0 0 22px #ff174c33}
+#rose-canvas{width:100%;height:min(68svh,650px);display:block}
+#rose-caption{color:#f5c7d2;font-size:.9rem;letter-spacing:.13em;text-transform:uppercase;margin:0 12px;text-align:center;opacity:0;animation:roseCaption 1s ease 3.8s forwards}
+#rose-skip{position:absolute;bottom:18px;right:18px;background:#171219;color:#fff;border:1px solid #6a3446;border-radius:99px;box-shadow:none;padding:10px 15px;font-size:.8rem;z-index:2}
+@keyframes roseCaption{to{opacity:.85}}
+@media(max-height:650px){#rose-stage{min-height:0}#rose-title{font-size:clamp(1.7rem,6vw,3rem)}#rose-canvas{height:64svh}}
+@media(prefers-reduced-motion:reduce){#rose-intro{transition:none}#rose-caption{animation:none;opacity:1}}
+
 </style></head>
 <body>
+<div id="rose-intro" role="dialog" aria-label="A rose made of love in many languages"><div id="rose-stage"><h1 id="rose-title">1 Rose, Every Language</h1><canvas id="rose-canvas" aria-label="Words meaning love slowly form a rose"></canvas><p id="rose-caption">A little something, made just for Sakshi</p></div><button id="rose-skip" type="button">Skip intro ↗</button></div>
 <main>
 <section class="hero">
 <span class="shape s1">🎈</span><span class="shape s2">🍕</span><span class="shape s3">🪩</span><span class="shape s4">🎁</span>
@@ -49,4 +63,15 @@ cake.addEventListener('click',()=>{score++;scoreEl.textContent='Cake taps: '+sco
 document.getElementById('reset').addEventListener('click',()=>{score=0;scoreEl.textContent='Cake taps: 0';cake.textContent='🎂';result.textContent='Fresh cake. Fresh start. GO!'});
 const jokes=['Why did the birthday cake go to school? It wanted to be a smartie. 🍬','What goes up but never comes down? Your age. Sorry. 💀','Birthday calories are like ghosts: nobody can prove they exist. 🍰','You are not getting older. You are levelling up—with extra bugs. 🎮'];
 document.getElementById('joke').addEventListener('click',()=>{document.getElementById('jokeout').textContent=jokes[Math.floor(Math.random()*jokes.length)]});
+
+(()=>{const intro=document.getElementById('rose-intro'),canvas=document.getElementById('rose-canvas');if(!intro||!canvas)return;const ctx=canvas.getContext('2d');
+const words=['I LOVE YOU','AMOR','愛してる','Je t’aime','Te amo','사랑해','Nakupenda','我爱你','Ich liebe dich','Aishiteru','Ti amo','LOVE','أحبك','Я тебя люблю','Seni seviyorum','Mahal kita','Anh yêu em','사랑','Amour','मैं तुमसे प्यार करता हूँ'];
+let points=[],started=performance.now(),raf=0;
+function rand(seed){let x=Math.sin(seed*127.1+311.7)*43758.5453;return x-Math.floor(x)}
+function zone(x,y){const c=[[.50,.22,.17],[.36,.27,.16],[.64,.27,.16],[.43,.37,.17],[.57,.37,.17],[.50,.31,.19]];if(c.some(q=>((x-q[0])**2+(y-q[1])**2)<q[2]*q[2]))return'petal';if(x>.482&&x<.518&&y>.43&&y<.88)return'stem';if(y>.56&&y<.70&&((x>.28&&x<.49&&y<.68-(x-.28)*.18)||(x>.51&&x<.73&&y<.68-(.73-x)*.18)))return'leaf';return''}
+function makePoints(){points=[];let s=1;for(let y=.12;y<.91;y+=.018){for(let x=.2;x<.81;x+=.018){let xx=x+(rand(s++)-.5)*.014,yy=y+(rand(s++)-.5)*.014,z=zone(xx,yy);if(z&&rand(s++)>.25)points.push({x:xx,y:yy,text:words[Math.floor(rand(s++)*words.length)],color:yy>.56?(z==='stem'?'#86c77b':'#78ba72':['#ff315b','#ff5578','#f65b83','#ff4c72','#ff6a8b'][Math.floor(rand(s++)*5)],delay:rand(s++)*3.8,size:7+rand(s++)*3.5})}}for(let i=0;i<45;i++){let a=rand(i+88)*Math.PI*2,rad=rand(i+188)*.12;points.push({x:.5+Math.cos(a)*rad,y:.31+Math.sin(a)*rad,text:words[i%words.length],color:'#ff9aaa',delay:rand(i+288)*3.6,size:7+rand(i+388)*3})}}
+function draw(now){let dpr=Math.min(window.devicePixelRatio||1,2),r=canvas.getBoundingClientRect(),W=Math.max(1,r.width),H=Math.max(1,r.height);if(canvas.width!==Math.round(W*dpr)||canvas.height!==Math.round(H*dpr)){canvas.width=Math.round(W*dpr);canvas.height=Math.round(H*dpr)}ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,W,H);let elapsed=(now-started)/1000;ctx.textAlign='center';ctx.textBaseline='middle';for(let p of points){let progress=Math.max(0,Math.min(1,(elapsed-p.delay)/.65));if(progress<=0)continue;ctx.globalAlpha=progress*(p.y>.56?.9:.96);ctx.fillStyle=p.color;ctx.font=Math.max(6,p.size*W/390)+'px Georgia,serif';ctx.fillText(p.text,p.x*W,p.y*H)}ctx.globalAlpha=1;if(elapsed<5.8)raf=requestAnimationFrame(draw);else setTimeout(closeIntro,900)}
+function closeIntro(){if(intro.classList.contains('leaving'))return;intro.classList.add('leaving');setTimeout(()=>intro.remove(),1400)}
+document.getElementById('rose-skip').addEventListener('click',closeIntro);makePoints();raf=requestAnimationFrame(draw);window.addEventListener('resize',()=>{if(intro.isConnected){cancelAnimationFrame(raf);raf=requestAnimationFrame(draw)}},{passive:true})})();
+
 </script></body></html>
