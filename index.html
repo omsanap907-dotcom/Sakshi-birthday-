@@ -52,6 +52,7 @@ button{font:inherit;font-weight:900;cursor:pointer;border:2px solid var(--ink);b
 .music-control:focus-visible{outline:3px solid #ff7ba0;outline-offset:3px}
 </style></head>
 <body>
+<audio id="birthday-music" src="sonican-sentimental-cinematic-piano-love-243137%20(1).mp3" preload="auto" loop playsinline></audio>
 <div id="rose-intro" role="dialog" aria-label="A rose made of love in many languages"><div id="rose-stage"><h1 id="rose-title">SAKSHI, EVERY SCRIPT</h1><canvas id="rose-canvas" aria-label="Words meaning love slowly form a rose"></canvas><p id="rose-caption">One name, written around the world 🌹</p></div></div>
 <main><section class="letter-section" id="birthday-letter">
 <h2>A little letter for you 💌</h2>
@@ -121,15 +122,11 @@ function closeIntro(){if(intro.classList.contains('leaving'))return;intro.classL
 makePoints();raf=requestAnimationFrame(draw);window.addEventListener('resize',()=>{if(intro.isConnected){cancelAnimationFrame(raf);raf=requestAnimationFrame(draw)}},{passive:true})})();
 
 
-/* Soft birthday piano-style background music. Starts on page load where allowed;
-   if mobile autoplay is blocked, starts on the visitor's first interaction. */
-(()=>{let audio=null,master=null,playing=false,notesTimer=null,step=0;
-function makeAudio(){const Ctx=window.AudioContext||window.webkitAudioContext;if(!Ctx)return false;audio=new Ctx();master=audio.createGain();master.gain.value=.0001;master.connect(audio.destination);return true}
-function note(freq,start,duration,volume,type='sine'){if(!audio||!master)return;const osc=audio.createOscillator(),gain=audio.createGain();osc.type=type;osc.frequency.setValueAtTime(freq,start);gain.gain.setValueAtTime(.0001,start);gain.gain.exponentialRampToValueAtTime(volume,start+.12);gain.gain.exponentialRampToValueAtTime(.0001,start+duration);osc.connect(gain);gain.connect(master);osc.start(start);osc.stop(start+duration+.04)}
-const melody=[261.63,329.63,392,329.63,293.66,349.23,440,349.23,261.63,329.63,392,523.25,440,392,349.23,329.63];
-function playLoop(){if(!playing||!audio)return;const now=audio.currentTime;const i=step++%melody.length;note(melody[i],now,1.05,.11,'triangle');if(i%4===0){note(melody[i]*.5,now,1.8,.055,'sine');note(melody[(i+2)%melody.length]*1.5,now+.08,.7,.035,'sine')}notesTimer=setTimeout(playLoop,650)}
-async function start(){if(playing)return;if(!audio&&!makeAudio())return;try{if(audio.state==='suspended')await audio.resume();playing=true;master.gain.cancelScheduledValues(audio.currentTime);master.gain.setTargetAtTime(.7,audio.currentTime,.7);playLoop()}catch(e){playing=false}}
-function beginOnFirstInteraction(){start();window.removeEventListener('pointerdown',beginOnFirstInteraction);window.removeEventListener('keydown',beginOnFirstInteraction)}
-start();window.addEventListener('pointerdown',beginOnFirstInteraction,{once:true,passive:true});window.addEventListener('keydown',beginOnFirstInteraction,{once:true});
-})();
-</script></body></html>
+/* Birthday background track: autoplay when allowed; first interaction fallback. */
+(()=>{const audio=document.getElementById('birthday-music');if(!audio)return;
+audio.volume=0.72;
+const start=()=>{audio.play().catch(()=>{});};
+start();
+window.addEventListener('pointerdown',start,{once:true,passive:true});
+window.addEventListener('keydown',start,{once:true});
+})();</script></body></html>
