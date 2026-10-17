@@ -20,6 +20,7 @@ button{font:inherit;font-weight:900;cursor:pointer;border:2px solid var(--ink);b
 #rose-intro.leaving{opacity:0;visibility:hidden;pointer-events:none}
 #rose-stage{position:relative;width:min(100vw,620px);height:min(100svh,900px);min-height:560px;display:flex;flex-direction:column;align-items:center;justify-content:center}
 #rose-title{font-family:Arial,sans-serif;font-size:clamp(2rem,8vw,4.2rem);font-weight:900;line-height:1.05;letter-spacing:-.06em;text-align:center;color:#ff174c;margin:0 12px 8px;text-shadow:0 0 22px #ff174c33}
+#start-birthday{margin:14px 0 4px;background:#ff174c;color:#fff;border:1px solid #ff8ca6;border-radius:999px;padding:13px 23px;box-shadow:0 5px 22px #ff174c44;z-index:3}
 #rose-canvas{width:100%;height:min(68svh,650px);display:block}
 #rose-caption{color:#f5c7d2;font-size:.9rem;letter-spacing:.13em;text-transform:uppercase;margin:0 12px;text-align:center;opacity:0;animation:roseCaption 1s ease 3.8s forwards}
 #rose-skip{position:absolute;bottom:18px;right:18px;background:#171219;color:#fff;border:1px solid #6a3446;border-radius:99px;box-shadow:none;padding:10px 15px;font-size:.8rem;z-index:2}
@@ -53,7 +54,7 @@ button{font:inherit;font-weight:900;cursor:pointer;border:2px solid var(--ink);b
 </style></head>
 <body>
 <audio id="birthday-music" src="https://raw.githubusercontent.com/omsanap907-dotcom/Sakshi-birthday-/main/sonican-sentimental-cinematic-piano-love-243137%20(1).mp3" preload="auto" loop playsinline></audio>
-<div id="rose-intro" role="dialog" aria-label="A rose made of love in many languages"><div id="rose-stage"><h1 id="rose-title">SAKSHI, EVERY SCRIPT</h1><canvas id="rose-canvas" aria-label="Words meaning love slowly form a rose"></canvas><p id="rose-caption">One name, written around the world 🌹</p></div></div>
+<div id="rose-intro" role="dialog" aria-label="A rose made of love in many languages"><div id="rose-stage"><h1 id="rose-title">SAKSHI, EVERY SCRIPT</h1><button id="start-birthday" type="button">Start the surprise 💗</button><canvas id="rose-canvas" aria-label="Words meaning love slowly form a rose"></canvas><p id="rose-caption">One name, written around the world 🌹</p></div></div>
 <main><section class="letter-section" id="birthday-letter">
 <h2>A little letter for you 💌</h2>
 <p class="letter-intro">Some feelings are too gentle to fit inside a birthday wish. Tap the envelope, Sakshi.</p>
@@ -119,7 +120,7 @@ points=[];let n=0;const W=canvas.clientWidth||390,H=canvas.clientHeight||360;
 for(let i=0;i<splashes.length;i++){const text=splashes[i];points.push({x:.5,y:.12+i*(.76/(splashes.length-1)),text,color:['#ff4778','#ffcf70','#ffc4d9','#f9e9ff'][i%4],delay:i*.24,size:15})}
 started=performance.now();cancelAnimationFrame(raf);raf=requestAnimationFrame(draw);setTimeout(closeIntro,6500)}
 function closeIntro(){if(intro.classList.contains('leaving'))return;intro.classList.add('leaving');setTimeout(()=>intro.remove(),1400)}
-makePoints();raf=requestAnimationFrame(draw);window.addEventListener('resize',()=>{if(intro.isConnected){cancelAnimationFrame(raf);raf=requestAnimationFrame(draw)}},{passive:true})})();
+const startButton=document.getElementById("start-birthday");if(startButton){startButton.addEventListener("click",()=>{const audio=document.getElementById("birthday-music");if(audio){audio.volume=0.72;audio.play().catch(()=>{});}startButton.remove();makePoints();started=performance.now();raf=requestAnimationFrame(draw);},{once:true});}window.addEventListener('resize',()=>{if(intro.isConnected&&points.length){cancelAnimationFrame(raf);raf=requestAnimationFrame(draw)}},{passive:true})})();
 
 
 /* Birthday background track: autoplay where allowed; retry after a real user gesture until playback succeeds. */
